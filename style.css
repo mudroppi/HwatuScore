@@ -41,3 +41,36 @@ a.hidden { visibility: hidden;}
     0% { opacity: 0; }
     100% { opacity: 1;}
 }
+
+section {
+    width: 80%;
+    //height: 200px;
+    //background: aqua;
+    margin: auto;
+    padding: 10px;
+    //border: 1px solid orange;
+
+}
+div #one {
+    width: 15%;
+    //height: 200px;
+    //background: red;
+    float: left;
+    //border: 1px solid red;
+}
+div#two {
+    width: 25%;
+    float: left;
+    margin-left: 0%;
+    //width: auto
+    //height: 200px;
+    //background: black;
+    //border: 2px solid black;
+}
+
+div #clear {
+  clear: both;
+}
+
+img #unselected {opacity: 0.5;}
+img #selected {opacity: 1;}
