@@ -72,5 +72,13 @@ div #clear {
   clear: both;
 }
 
-img #unselected {opacity: 0.5;}
-img #selected {opacity: 1;}
+#unselected {
+  opacity: 0.5;
+
+}
+
+#selected {
+  opacity: 1;
+  border: 1px solid green;
+
+}

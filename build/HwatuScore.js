@@ -120,11 +120,33 @@ HwatuScore.initialState = () => {
 // };
 
 //
+
+function Card(props) {
+  const isSelected = HwatuScore.state[props.name];
+
+  if (isSelected) {
+    l("is Selected");
+    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "selected", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+  } else {
+    l("not Selected");
+    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "unselected", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+  }
+}
+
 HwatuScore.state = HwatuScore.state || HwatuScore.initialState();
 
 HwatuScore.finalScore = () => {
   let st = HwatuScore.state;
+
   score = st.gwang_jan + st.gwang_mar + st.gwang_aug + st.gwang_nov + st.gwang_dec;
+
+  if (score <= 2) {
+    score = 0;
+  } else if (score == 3 && st.gwang_dec) {
+    score = 2;
+  } else if (score == 5) {
+    score = 15;
+  }
 
   return React.createElement(
     "section",
@@ -137,6 +159,12 @@ HwatuScore.finalScore = () => {
     )
   );
 };
+
+// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_jan" ></img>
+// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_mar" ></img>
+// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_aug" ></img>
+// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_nov" ></img>
+// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_dec" ></img>
 
 HwatuScore.drawGwangCards = () => {
   return React.createElement(
@@ -156,11 +184,11 @@ HwatuScore.drawGwangCards = () => {
     React.createElement(
       "div",
       { id: "two" },
-      React.createElement("img", { width: "50", height: "75", src: "card.jpg", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: "gwang_jan" }),
-      React.createElement("img", { width: "50", height: "75", src: "card.jpg", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: "gwang_mar" }),
-      React.createElement("img", { width: "50", height: "75", src: "card.jpg", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: "gwang_aug" }),
-      React.createElement("img", { width: "50", height: "75", src: "card.jpg", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: "gwang_nov" }),
-      React.createElement("img", { width: "50", height: "75", src: "card.jpg", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: "gwang_dec" })
+      React.createElement(Card, { name: "gwang_jan" }),
+      React.createElement(Card, { name: "gwang_mar" }),
+      React.createElement(Card, { name: "gwang_aug" }),
+      React.createElement(Card, { name: "gwang_nov" }),
+      React.createElement(Card, { name: "gwang_dec" })
     ),
     React.createElement(
       "div",
@@ -190,7 +218,7 @@ HwatuScore.selectCard = cardName => {
 };
 
 HwatuScore.setState = (state, updates) => {
-  Object.keys(updates).forEach(key => state[key] = updates[key]);return state;
+  Object.keys(updates).forEach(key => state[key] = !state[key]);return state;
 };
 
 HwatuScore.game = () => React.createElement(
