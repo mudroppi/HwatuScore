@@ -50,6 +50,7 @@ HwatuScore.initialState = () => {
     animal_apr: 0,
     animal_may: 0,
     animal_jun: 0,
+    animal_jul: 0,
     animal_aug: 0,
     animal_sep: 0,
     animal_oct: 0,
@@ -61,65 +62,6 @@ HwatuScore.initialState = () => {
     //numGwang: [1, 2, 3, 4, 5, 6, 7, 8].map(() => new Object())
   };
 };
-
-// HwatuScore.setState = (st) => {
-//   return {
-//     gwang_jan: st.gwang_jan,
-//     gwang_mar: st.gwang_mar,
-//     gwang_aug: gwang_aug,
-//     gwang_nov: gwang_nov,
-//     gwang_dec: gwang_dec,
-//     ribbon_jan: ribbon_jan,
-//     ribbon_feb: ribbon_feb,
-//     ribbon_mar: ribbon_mar,
-//     ribbon_apr: ribbon_apr,
-//     ribbon_may: ribbon_may,
-//     ribbon_jun: ribbon_jun,
-//     ribbon_jul: ribbon_jul,
-//     ribbon_sep: ribbon_sep,
-//     ribbon_oct: ribbon_oct,
-//     ribbon_dec: ribbon_oct,
-//     pi_jan_1: pi_jan_1,
-//     pi_jan_2: pi_jan_2,
-//     pi_feb_1: pi_feb_1,
-//     pi_feb_2: pi_feb_2,
-//     pi_mar_1: pi_mar_1,
-//     pi_mar_2: pi_mar_2,
-//     pi_apr_1: pi_apr_1,
-//     pi_apr_2: pi_apr_2,
-//     pi_may_1: pi_may_1,
-//     pi_may_2: pi_may_2,
-//     pi_jun_1: pi_jun_1,
-//     pi_jun_2: 0,
-//     pi_jul_1: 0,
-//     pi_jul_2: 0,
-//     pi_aug_1: 0,
-//     pi_aug_2: 0,
-//     pi_sep_1: 0,
-//     pi_sep_2: 0,
-//     pi_oct_1: 0,
-//     pi_oct_2: 0,
-//     pi_nov_1: 0,
-//     pi_nov_2: 0,
-//     pi_nov_3: 0,
-//     pi_dec_1: 0,
-//     animal_feb: 0,
-//     animal_apr: 0,
-//     animal_may: 0,
-//     animal_jun: 0,
-//     animal_aug: 0,
-//     animal_sep: 0,
-//     animal_oct: 0,
-//     animal_dec: 0,
-//     numGwang: st.numGwang,
-//     numRibbon: st.numRibbon,
-//     numAnimal: st.numAnimal,
-//     numJunk: st.numJunk
-//     //numGwang: [1, 2, 3, 4, 5, 6, 7, 8].map(() => new Object())
-//   };
-// };
-
-//
 
 function Card(props) {
   const isSelected = HwatuScore.state[props.name];
@@ -138,15 +80,61 @@ HwatuScore.state = HwatuScore.state || HwatuScore.initialState();
 HwatuScore.finalScore = () => {
   let st = HwatuScore.state;
 
-  score = st.gwang_jan + st.gwang_mar + st.gwang_aug + st.gwang_nov + st.gwang_dec;
+  var gwang_score = 0;
+  var animal_score = 0;
+  var animal_multiplier = 1;
+  gwang_score = st.gwang_jan + st.gwang_mar + st.gwang_aug + st.gwang_nov + st.gwang_dec;
 
-  if (score <= 2) {
-    score = 0;
-  } else if (score == 3 && st.gwang_dec) {
-    score = 2;
-  } else if (score == 5) {
-    score = 15;
+  if (gwang_score <= 2) {
+    gwang_score = 0;
+  } else if (gwang_score == 3 && st.gwang_dec) {
+    gwang_score = 2;
+  } else if (gwang_score == 5) {
+    gwang_score = 15;
   }
+
+  animal_score = st.animal_feb + st.animal_apr + st.animal_may + st.animal_jun + st.animal_jul + st.animal_aug + st.animal_sep + st.animal_oct + st.animal_dec;
+
+  if (animal_score >= 7) {
+    animal_multiplier = 2;
+  }
+  if (animal_score < 5) {
+    animal_score = 0;
+  } else {
+    animal_score = animal_score - 4;
+  }
+
+  if (st.animal_feb && st.animal_apr && st.animal_aug) {
+    animal_score = animal_score + 5;
+  }
+
+  ribbon_score = st.ribbon_jan + st.ribbon_feb + st.ribbon_mar + st.ribbon_apr + st.ribbon_may + st.ribbon_jun + st.ribbon_jul + st.ribbon_sep + st.ribbon_oct + st.ribbon_dec;
+
+  if (ribbon_score < 5) {
+    ribbon_score = 0;
+  } else {
+    ribbon_score = ribbon_score - 4;
+  }
+
+  if (st.ribbon_jan && st.ribbon_feb && st.ribbon_mar) {
+    ribbon_score = ribbon_score + 3;
+  }
+  if (st.ribbon_apr && st.ribbon_may && st.ribbon_jul) {
+    ribbon_score = ribbon_score + 3;
+  }
+  if (st.ribbon_jun && st.ribbon_sep && st.ribbon_oct) {
+    ribbon_score = ribbon_score + 3;
+  }
+
+  pi_score = st.pi_jan_1 + st.pi_jan_2 + st.pi_feb_1 + st.pi_feb_2 + st.pi_mar_1 + st.pi_mar_2 + st.pi_apr_1 + st.pi_apr_2 + st.pi_may_1 + st.pi_may_2 + st.pi_jun_1 + st.pi_jun_2 + st.pi_jul_1 + st.pi_jul_2 + st.pi_aug_1 + st.pi_aug_2 + st.pi_sep_1 + st.pi_sep_2 + st.pi_oct_1 + st.pi_oct_2 + st.pi_nov_1 + st.pi_nov_2 + st.pi_nov_3 * 2 + st.pi_dec_1 * 2;
+
+  if (pi_score < 10) {
+    pi_score = 0;
+  } else {
+    pi_score = pi_score - 9;
+  }
+
+  const score = (animal_score + gwang_score + ribbon_score + pi_score) * animal_multiplier;
 
   return React.createElement(
     "section",
@@ -159,12 +147,6 @@ HwatuScore.finalScore = () => {
     )
   );
 };
-
-// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_jan" ></img>
-// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_mar" ></img>
-// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_aug" ></img>
-// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_nov" ></img>
-// <img width="50" height="75" src="card.jpg" onClick={HwatuScore.eventHandler(HwatuScore.selectCard)} name="gwang_dec" ></img>
 
 HwatuScore.drawGwangCards = () => {
   return React.createElement(
@@ -197,24 +179,136 @@ HwatuScore.drawGwangCards = () => {
     )
   );
 };
-
+HwatuScore.drawAnimalCards = () => {
+  return React.createElement(
+    "section",
+    null,
+    React.createElement(
+      "div",
+      { id: "one" },
+      React.createElement(
+        "span",
+        null,
+        " ",
+        "Animal".toUpperCase(),
+        " "
+      )
+    ),
+    React.createElement(
+      "div",
+      { id: "two" },
+      React.createElement(Card, { name: "animal_feb" }),
+      React.createElement(Card, { name: "animal_apr" }),
+      React.createElement(Card, { name: "animal_may" }),
+      React.createElement(Card, { name: "animal_jun" }),
+      React.createElement(Card, { name: "animal_jul" }),
+      React.createElement(Card, { name: "animal_aug" }),
+      React.createElement(Card, { name: "animal_sep" }),
+      React.createElement(Card, { name: "animal_oct" }),
+      React.createElement(Card, { name: "animal_dec" })
+    ),
+    React.createElement(
+      "div",
+      { id: "clear" },
+      " "
+    )
+  );
+};
+HwatuScore.drawRibbonCards = () => {
+  return React.createElement(
+    "section",
+    null,
+    React.createElement(
+      "div",
+      { id: "one" },
+      React.createElement(
+        "span",
+        null,
+        " ",
+        "Ribbon".toUpperCase(),
+        " "
+      )
+    ),
+    React.createElement(
+      "div",
+      { id: "two" },
+      React.createElement(Card, { name: "ribbon_jan" }),
+      React.createElement(Card, { name: "ribbon_feb" }),
+      React.createElement(Card, { name: "ribbon_mar" }),
+      React.createElement(Card, { name: "ribbon_apr" }),
+      React.createElement(Card, { name: "ribbon_may" }),
+      React.createElement(Card, { name: "ribbon_jun" }),
+      React.createElement(Card, { name: "ribbon_jul" }),
+      React.createElement(Card, { name: "ribbon_sep" }),
+      React.createElement(Card, { name: "ribbon_oct" }),
+      React.createElement(Card, { name: "ribbon_dec" })
+    ),
+    React.createElement(
+      "div",
+      { id: "clear" },
+      " "
+    )
+  );
+};
+HwatuScore.drawPiCards = () => {
+  return React.createElement(
+    "section",
+    null,
+    React.createElement(
+      "div",
+      { id: "one" },
+      React.createElement(
+        "span",
+        null,
+        " ",
+        "PI".toUpperCase(),
+        " "
+      )
+    ),
+    React.createElement(
+      "div",
+      { id: "two" },
+      React.createElement(Card, { name: "pi_jan_1" }),
+      React.createElement(Card, { name: "pi_jan_2" }),
+      React.createElement(Card, { name: "pi_feb_1" }),
+      React.createElement(Card, { name: "pi_feb_2" }),
+      React.createElement(Card, { name: "pi_mar_1" }),
+      React.createElement(Card, { name: "pi_mar_2" }),
+      React.createElement(Card, { name: "pi_apr_1" }),
+      React.createElement(Card, { name: "pi_apr_2" }),
+      React.createElement(Card, { name: "pi_may_1" }),
+      React.createElement(Card, { name: "pi_may_2" }),
+      React.createElement(Card, { name: "pi_jun_1" }),
+      React.createElement(Card, { name: "pi_jun_2" }),
+      React.createElement(Card, { name: "pi_jul_1" }),
+      React.createElement(Card, { name: "pi_jul_2" }),
+      React.createElement(Card, { name: "pi_aug_1" }),
+      React.createElement(Card, { name: "pi_aug_2" }),
+      React.createElement(Card, { name: "pi_sep_1" }),
+      React.createElement(Card, { name: "pi_sep_2" }),
+      React.createElement(Card, { name: "pi_oct_1" }),
+      React.createElement(Card, { name: "pi_oct_2" }),
+      React.createElement(Card, { name: "pi_nov_1" }),
+      React.createElement(Card, { name: "pi_nov_2" }),
+      React.createElement(Card, { name: "pi_nov_3" }),
+      React.createElement(Card, { name: "pi_dec_1" })
+    ),
+    React.createElement(
+      "div",
+      { id: "clear" },
+      " "
+    )
+  );
+};
 HwatuScore.eventHandler = f => e => {
   e.preventDefault();f(e.target.name);HwatuScore.render();
 };
 
 HwatuScore.selectCard = cardName => {
   let st = HwatuScore.state;
-  if (cardName == "gwang_jan") {
-    HwatuScore.setState(st, { gwang_jan: 1 });
-  } else if (cardName == "gwang_mar") {
-    HwatuScore.setState(st, { gwang_mar: 1 });
-  } else if (cardName == "gwang_aug") {
-    HwatuScore.setState(st, { gwang_aug: 1 });
-  } else if (cardName == "gwang_nov") {
-    HwatuScore.setState(st, { gwang_nov: 1 });
-  } else if (cardName == "gwang_dec") {
-    HwatuScore.setState(st, { gwang_dec: 1 });
-  }
+  var obj = {};
+  obj[cardName] = 1;
+  HwatuScore.setState(st, obj);
 };
 
 HwatuScore.setState = (state, updates) => {
@@ -225,6 +319,9 @@ HwatuScore.game = () => React.createElement(
   "div",
   null,
   HwatuScore.drawGwangCards(),
+  HwatuScore.drawRibbonCards(),
+  HwatuScore.drawAnimalCards(),
+  HwatuScore.drawPiCards(),
   HwatuScore.finalScore()
 );
 
