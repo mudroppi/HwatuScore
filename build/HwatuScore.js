@@ -68,10 +68,10 @@ function Card(props) {
 
   if (isSelected) {
     l("is Selected");
-    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "selected", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "selected", onMouseOver: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
   } else {
     l("not Selected");
-    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "unselected", onClick: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "unselected", onMouseOver: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
   }
 }
 
