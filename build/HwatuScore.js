@@ -68,10 +68,10 @@ function Card(props) {
 
   if (isSelected) {
     l("is Selected");
-    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "selected", onMouseOver: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+    return React.createElement("img", { width: 50 * 2, height: 75 * 2, src: "images/" + props.name + ".png", id: "selected", onMouseDown: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
   } else {
     l("not Selected");
-    return React.createElement("img", { width: "50", height: "75", src: "images/" + props.name + ".png", id: "unselected", onMouseOver: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
+    return React.createElement("img", { width: 50 * 2, height: 75 * 2, src: "images/" + props.name + ".png", id: "unselected", onMouseDown: HwatuScore.eventHandler(HwatuScore.selectCard), name: props.name });
   }
 }
 
@@ -137,7 +137,7 @@ HwatuScore.finalScore = () => {
   const score = (animal_score + gwang_score + ribbon_score + pi_score) * animal_multiplier;
 
   return React.createElement(
-    "section",
+    "div",
     null,
     React.createElement(
       "div",
@@ -150,7 +150,7 @@ HwatuScore.finalScore = () => {
 
 HwatuScore.drawGwangCards = () => {
   return React.createElement(
-    "section",
+    "div",
     null,
     React.createElement(
       "div",
@@ -181,7 +181,7 @@ HwatuScore.drawGwangCards = () => {
 };
 HwatuScore.drawAnimalCards = () => {
   return React.createElement(
-    "section",
+    "div",
     null,
     React.createElement(
       "div",
@@ -216,7 +216,7 @@ HwatuScore.drawAnimalCards = () => {
 };
 HwatuScore.drawRibbonCards = () => {
   return React.createElement(
-    "section",
+    "div",
     null,
     React.createElement(
       "div",
@@ -252,7 +252,7 @@ HwatuScore.drawRibbonCards = () => {
 };
 HwatuScore.drawPiCards = () => {
   return React.createElement(
-    "section",
+    "div",
     null,
     React.createElement(
       "div",
@@ -317,7 +317,7 @@ HwatuScore.setState = (state, updates) => {
 
 HwatuScore.game = () => React.createElement(
   "div",
-  null,
+  { id: "main" },
   HwatuScore.drawGwangCards(),
   HwatuScore.drawRibbonCards(),
   HwatuScore.drawAnimalCards(),

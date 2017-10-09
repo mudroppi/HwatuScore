@@ -51,21 +51,25 @@ section {
     //border: 1px solid orange;
 
 }
+div #main {
+  width: 100%;
+  //border: 2px solid red;
+}
 div #one {
-    width: 15%;
+    width: 3%;
     //height: 200px;
     //background: red;
     float: left;
-    //border: 1px solid red;
+    //border: 2px solid green;
 }
 div#two {
-    width: 50%;
+    width: 98%;
     float: left;
     margin-left: 0%;
     //width: auto
     //height: 200px;
     //background: black;
-    //border: 2px solid black;
+    //border: 2px solid green;
 }
 
 div #clear {
